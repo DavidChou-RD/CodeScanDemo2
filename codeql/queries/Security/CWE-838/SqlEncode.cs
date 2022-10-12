@@ -3,12 +3,14 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Web;
 using System.Net;
+using Microsoft.AspNetCore.Http;
+using System.Data.SqlClient;
 
 public class SqlEncode
 {
     public static DataSet Bad(HttpContext ctx)
     {
-        var user = WebUtility.UrlDecode(ctx.Request.QueryString["user"]);
+        var user = WebUtility.UrlDecode(ctx.Request.Query["user"]);
         using (var connection = new SqlConnection(""))
         {
             var query = "select * from Users where Name='" + user.Replace("\"", "\"\"") + "'";
@@ -21,7 +23,7 @@ public class SqlEncode
 
     public static DataSet Good(HttpContext ctx)
     {
-        var user = WebUtility.UrlDecode(ctx.Request.QueryString["user"]);
+        var user = WebUtility.UrlDecode(ctx.Request.Query["user"]);
         using (var connection = new SqlConnection(""))
         {
             var query = "select * from Users where Name=@name";
