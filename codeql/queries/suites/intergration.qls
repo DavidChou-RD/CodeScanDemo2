@@ -1,11 +1,4 @@
-# Copyright (c) Microsoft Corporation.
-# Licensed under the MIT license.
-
-- description: Security queries required to fix when certifying scan demo
-- queries: ./APIAbuse 
-
-#- queries: .
-#  from: windows-drivers
-#- include:
-#    query path: 
-#      - APIAbuse/NullArgumentToEquals.ql
+- description: Standard Code Scanning queries for C#
+- queries: .
+- apply: code-scanning-selectors.yml
+  from: ./queries
