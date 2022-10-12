@@ -2,11 +2,8 @@
 # Licensed under the MIT license.
 
 - description: Security queries required to fix when certifying scan demo
-- queries: . 
-  from: codeql/codeql-queries
-- include:
-    query path: 
-      - APIAbuse/NullArgumentToEquals.ql
+- queries: ./APIAbuse 
+
 #- queries: .
 #  from: windows-drivers
 #- include:
