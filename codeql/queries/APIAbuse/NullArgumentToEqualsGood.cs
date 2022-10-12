@@ -1,4 +1,7 @@
-class Good
+namespace APIAbuse
 {
-    bool IsNull(object o) => o == null;
+    class Good
+    {
+        bool IsNull(object o) => o == null;
+    }
 }

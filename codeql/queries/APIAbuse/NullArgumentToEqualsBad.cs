@@ -1,4 +1,9 @@
-class Bad
+
+namespace APIAbuse
 {
-    bool IsNull(object o) => o.Equals(null);
+    class Bad
+    {
+        bool IsNull(object o) => o.Equals(null);
+    }
 }
+

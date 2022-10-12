@@ -1,58 +1,40 @@
-using System;
-using System.Data.SqlClient;
-using System.Web;
-using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.Http;
 using ServiceStack.Host;
 
-public class HardcodedHandler : IHttpHandler
+
+namespace CWE798
 {
-
-    public void ProcessRequest(HttpContext ctx)
+    public class HardcodedHandler : IHttpHandler
     {
-        string password = ctx.Request.Query["password"];
 
-        // BAD: Inbound authentication made by comparison to string literal
-        if (password == "myPa55word")
+        public void ProcessRequest(HttpContext ctx)
         {
-            ctx.Response.Redirect("login");
+            string password = ctx.Request.Query["password"];
+
+            // BAD: Inbound authentication made by comparison to string literal
+            if (password == "myPa55word")
+            {
+                ctx.Response.Redirect("login");
+            }
+
+            string hashedPassword = LoadPasswordFromSecretConfig();
+
+            // GOOD: the password is checked
+            if (VerifyHashedPassword(hashedPassword, password))
+            {
+                ctx.Response.Redirect("login");
+            }
         }
 
-        string hashedPassword = LoadPasswordFromSecretConfig();
-
-        // GOOD: the password is checked
-        if (VerifyHashedPassword(hashedPassword, password))
+        public string LoadPasswordFromSecretConfig()
         {
-            ctx.Response.Redirect("login");
+            return null;
         }
-    }
 
-    class Foo
-    {
-        string ToString()
+        public static bool VerifyHashedPassword(string hashedPassword, string password)
         {
-            // We don't consider this hard-coded data - too many ToString implementations include
-            // string literal construction
-            return "Foo";
-        }
-    }
-
-    public string LoadPasswordFromSecretConfig()
-    {
-        return null;
-    }
-
-    public static bool VerifyHashedPassword(string hashedPassword, string password)
-    {
-        // API provided by System.Web.Helpers.Crypto.VerifyHashedPassword
-        // but that assembly not available on Mono.
-        return true;
-    }
-
-    public bool IsReusable
-    {
-        get
-        {
+            // API provided by System.Web.Helpers.Crypto.VerifyHashedPassword
+            // but that assembly not available on Mono.
             return true;
         }
     }
