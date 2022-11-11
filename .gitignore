@@ -3,3 +3,4 @@ obj/*
 bin/*
 .vs/*
 .sonarqube/*
+codeql/queries/.cache/*
